@@ -51,9 +51,12 @@ export function movies(state = initialMoviesState, action) {
                 showFavourites: action.val
             }
         case ADD_MOVIE_TO_LIST:
+            const newList = state.list.filter(
+                movie => movie.Title !== action.movie.Title
+            );
             return {
                 ...state,
-                list: [action.movie, ...state.list],
+                list: [action.movie, ...newList],
             };
         default:
             return state;
