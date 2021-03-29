@@ -1,4 +1,5 @@
-import React, { createContext } from 'react';
+import React from 'react';
+import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
@@ -42,6 +43,7 @@ const store = createStore(rootReducer, applyMiddleware(logger, thunk));
 console.log('store', store);
 // console.log('earlier state', store.getState());
 
+/*
 export const StoreContext = createContext();
 console.log('StoreContext', StoreContext);
 
@@ -55,8 +57,10 @@ class Provider extends React.Component {
     );
   }
 }
+*/
 
 // const connectedAppComponent = connect(callback)(App);
+/*
 export function connect(callback) {
   return function(Component) {
     class ConnectedComponent extends React.Component {
@@ -95,6 +99,7 @@ export function connect(callback) {
     return ConnectedComponentWrapper;
   };
 }
+*/
 
 // store.dispatch({
 //   type: 'ADD_MOVIES',
