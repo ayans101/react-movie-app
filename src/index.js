@@ -1,4 +1,4 @@
-import React, { Component, createContext } from 'react';
+import React, { createContext } from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
@@ -23,7 +23,7 @@ const logger = function({dispatch, getState}) {
 const logger = ({dispatch, getState}) => (next) => (action) => {
   //  middleware code
   if(typeof action !== 'function'){
-    console.log('ACTION_TYPE = ', action.type);
+    console.log('ACTION', action);
   }
   next(action);
 }
@@ -62,7 +62,9 @@ export function connect(callback) {
     class ConnectedComponent extends React.Component {
       constructor(props) {
         super(props);
-        this.unsubscribe = this.props.store.subscribe(() => this.forceUpdate());
+        this.unsubscribe = this.props.store.subscribe(() => {
+          this.forceUpdate();
+        });
       }
 
       componentWillUnmount() {
@@ -83,13 +85,15 @@ export function connect(callback) {
       render() {
         return (
           <StoreContext.Consumer>
-            {store => <ConnectedComponent store={store} />}
+            {(store) => {
+              return <ConnectedComponent store={store} />;
+            }}
           </StoreContext.Consumer>
-        )
+        );
       }
     }
     return ConnectedComponentWrapper;
-  }
+  };
 }
 
 // store.dispatch({
@@ -100,10 +104,8 @@ export function connect(callback) {
 // console.log('present state', store.getState());
 
 ReactDOM.render(
-  <React.StrictMode>
     <Provider store={store}>
       <App />
-    </Provider>
-  </React.StrictMode>,
+    </Provider>,
   document.getElementById('root')
 );
